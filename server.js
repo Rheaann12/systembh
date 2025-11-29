@@ -6,7 +6,7 @@ const cookieParser = require("cookie-parser"); // Import cookie-parser
 require("dotenv").config();
 const user_router = require("./routes/user.route.js");
 const admin_router = require("./routes/admin.route.js");
-const patient_router = require("./routes/patient.route.js");
+
 
 const path = require("path");
 
@@ -20,7 +20,7 @@ app.use(express.static(path.join(__dirname, "public"))); // Register static file
 
 app.use(user_router); 
 app.use(admin_router); 
-app.use(patient_router);
+
 
 
 

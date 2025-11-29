@@ -27,14 +27,15 @@
     <aside class="sidebar">
         <div class="sidebar-header">
             <img src="/image/image.png" alt="logo">
-           <h3>Title sa inyong System</h3>
+          <h3>Title</h3>
         </div>
         <ul class="sidebar-links">
             <!-- <h4>Main Menu</h4> -->
             <div class="menu-separator"></div>
             <li><a href="Admindashboard"><span class="material-symbols-outlined">Dashboard</span>Dashboard</a></li>
             <li><a href="usermanagement"><span class="material-symbols-outlined">Manage_Accounts</span>Tenants</a></li>
-            <li><a href="patients"><span class="material-symbols-outlined">chat</span>Messages</a></li>
+             <li><a href="payment"><span class="material-symbols-outlined">payments</span>Payment</a></li>
+            <li><a href="message"><span class="material-symbols-outlined">chat</span>Messages</a></li>
             <li><a href="/login"><span class="material-symbols-outlined">Logout</span>Logout</a></li>
         </ul>
         
@@ -44,17 +45,9 @@
 
         <div class="top">
              <div class="sticky-header">
-                 <h4>Tenant Details</h4>    
+                 <h4>Tenant Management</h4>    
              </div>    
 
-             <!-- Add Search Field -->
-            <div class="search-container">
-                <span class="material-icons search-icon">search</span>
-                <input type="text" id="searchInput" placeholder="Search">
-            </div>               
-        </div>
-       
-       
 
         <div class="add-search">
             <!-- Add New User Button -->
@@ -65,6 +58,13 @@
             </button>
               
             
+  
+        <!-- Add Search Field -->
+            <div class="search-container">
+                <span class="material-icons search-icon">search</span>
+                <input type="text" id="searchInput" placeholder="Search">
+            </div>     
+
 
            <!-- SEARCH Filter Dropdown -->
     <div class="filter-container">
@@ -75,8 +75,15 @@
             <option value="Inactive">Inactive</option>
         </select>
     </div>
-</div>
 
+                    
+        </div>
+       
+        </div>
+
+
+        
+        
         <!-- User Modal -->
         <div id="userModal" class="modal">
             <div class="modal-content">
@@ -126,11 +133,7 @@
                     </div>
                     
 
-                    <!-- <div class="form-group">
-                        <label for="role">Role:</label>
-                        <input name="role" type="text" class="form-control" id="role" value="clinic staff" readonly>
-                    </div> -->
-
+                
                     <div class="form-group">
                         <label for="status">Status:</label>
                         <input name="status" type="text" class="form-control" id="status" value="Active" readonly>
@@ -158,8 +161,7 @@
             <table class="reports-table">
                 <thead>
                     <tr>
-                        <th>User ID</th>
-                    
+                        <th>Tenant ID</th>
                         <th>Lastname</th>
                         <th>Firstname</th>
                         <th>Birthdate</th>
@@ -172,6 +174,7 @@
                     </tr>
                 </thead>
                 
+              
               <tbody id="userTableBody"> 
                 <% users.forEach(user => { %>
                     <tr>
@@ -199,6 +202,7 @@
                     </tr>
                 <% }) %>
 </tbody>
+
 
             </table>
         </div>

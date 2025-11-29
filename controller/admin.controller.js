@@ -1,7 +1,8 @@
 
-// admin.conroller.js
+// admin.cotroller.js
 
 
+const { where } = require("sequelize");
 const models = require("../models");
 const jwt = require("jsonwebtoken");
 const bcrypt = require("bcrypt");
@@ -9,156 +10,144 @@ const bcrypt = require("bcrypt");
 
 
 
-// Other controller
+// Sa Navigation
 
-const landing_view = (req, res) => {
-    res.render("admin/landing");
-};
 const Admindashboard_view = (req, res) => {
     res.render("admin/Admindashboard");
 };
 
-const reports_view = (req, res) => {
-    res.render("admin/reports");
+const payment_view= (req, res) => {
+    res.render("admin/payment");
 };
 
 
-const logs_view = async (req, res) => {
-    const message = req.query.message || null;
 
+const message_view= (req, res) => {
+    res.render("admin/message");
+};
+
+
+const usermanagement_view = async (req, res) => {
     try {
-        // Fetch patients' data
-        const patients = await models.Patient.findAll({
-            attributes: ['Patient_ID', 'Patient_FirstName', 'Patient_LastName']
-        });
-
-        const patientList = patients.map(patient => ({
-            id: patient.Patient_ID,
-            name: `${patient.Patient_FirstName} ${patient.Patient_LastName}`
-        }));
-
-        // Fetch appointments data with createdAt and updatedAt
-        const appointments = await models.Appointment.findAll({
-            include: [{
-                model: models.Patient,
-                as: 'Patient',
-                attributes: ['Patient_FirstName', 'Patient_LastName']
-            }],
-            attributes: [
-                'Appointment_ID', 
-                'Appointment_Date', 
-                'Appointment_Time', 
-                'Appointment_Purpose', 
-                'Appointment_Status', 
-                'createdAt',  // Include createdAt
-                'updatedAt'   // Include updatedAt
-            ]
-        });
-
-        // Format the appointment data
-        const appointmentList = appointments.map(appointment => ({
-            id: appointment.Appointment_ID,
-            patientName: `${appointment.Patient.Patient_FirstName} ${appointment.Patient.Patient_LastName}`,
-            date: new Date(appointment.Appointment_Date).toLocaleDateString("en-CA"),
-            time: appointment.Appointment_Time,
-            purpose: appointment.Appointment_Purpose,
-            status: appointment.Appointment_Status,
-            createdAt: new Date(appointment.createdAt).toLocaleString(), // Format createdAt
-            updatedAt: new Date(appointment.updatedAt).toLocaleString()  // Format updatedAt
-        }));
-
-        // Debugging logs
-        console.log("Patient List:", patientList);
-        console.log("Appointment List:", appointmentList);
-
-        res.render("admin/logs", { message, patientList, appointmentList, error: null });
+        const users = await models.tenant.findAll(); // fetch all tenants
+        res.render("admin/usermanagement", { users });
     } catch (error) {
-        console.error("Error fetching patients or appointments:", error);
-        res.render("admin/logs", { message, patientList: [], appointmentList: [], error: "Failed to load data" });
+        console.error("Error fetching users:", error);
+        res.render("admin/usermanagement", { users: [] }); // fallback empty array
     }
 };
 
 
-//staff
-const Staffdashboard_view = (req, res) => {
-    res.render("staff/Staffdashboard");
+const login_view = (req, res) => {
+    const message = req.query.message || null;
+    res.render("login", { message });
 };
 
-const appointment_view = (req, res) => {
-    res.render("staff/appointment");
-};
-
-const patients_view = (req, res) => {
-    res.render("staff/patients");
+const register_view = (req, res) => {
+    const message = req.query.message;
+    res.render("register", { message });
 };
 
 
-
-const logout = (req, res) => {
-    res.cookie("token", "", { maxAge: 1000 });
-    res.render("login");
+const addUser_view = (req, res) => {
+    const message = req.query.message;
+    res.render("addUser", { message });
 };
 
+const save_user = (req, res) => {
+    const ConfirmPassword_data = req.body.ConfirmPassword_data;
 
+    const user_data = {
+        FirstName: req.body.firstName_data,
+        LastName: req.body.lastName_data,
+        Admin_Birthdate: req.body.birthdate_data,
+        Admin_Gender: req.body.gender_data,
+        ContactNumber: req.body.contactNumber_data,
+        Username: req.body.Username_data,
+        Password: req.body.Password_data,
+    };
 
-// Fetch clinic staff users from the ClinicStaff model
-const usermanagement_view = (req, res) => {
-    models.ClinicStaff.findAll()
-    .then(users => {
-        res.render("admin/usermanagement", { users }); // Pass user data to the view
-    })
-    .catch(error => {
-        console.error("Error fetching clinic staff users:", error);
-        res.render("admin/usermanagement", { users: [] }); // Render with an empty array if there's an error
-    });
-};
+    console.log("Admin registration data:", user_data);
+    console.log("Confirm password:", ConfirmPassword_data);
 
+    // Validate password confirmation
+    if (ConfirmPassword_data !== user_data.Password) {
+        return res.redirect("register?message=PasswordNotMatch");
+    }
 
-// Fetch total clinic staff users
-const getTotalClinicStaff = (req, res) => {
-    models.ClinicStaff.count()  // Count all clinic staff records in the ClinicStaff table
-        .then(totalStaff => {
-            res.json({ totalStaff });
+    // Hash the password before saving to the database
+    user_data.Password = bcrypt.hashSync(user_data.Password, 10);
+    console.log("Hashed password:", user_data.Password);
+
+    // Insert to the 'admin' table
+    models.admin.create(user_data)
+        .then(result => {
+            res.redirect("/login");
         })
         .catch(error => {
-            console.error('Error fetching total clinic staff:', error);
-            res.status(500).json({ error: 'Unable to fetch data' });
+            console.error("Database insertion error:", error);
+            res.redirect("register?message=ServerError");
         });
 };
 
-// Get total active clinic staff
-const getTotalActiveClinicStaff = (req, res) => {
-    models.ClinicStaff.count({
+const login_user = (req, res) => {
+    const user_data = {
+        Username: req.body.Username,
+        Password: req.body.Password,
+    };
+
+    console.log("Login attempt:", user_data);
+
+    // Check if the user exists in the 'admin' table
+    models.admin.findOne({ where: { Username: user_data.Username } })
+        .then(result => {
+            if (!result) {
+                console.log("Admin not found in database");
+                return res.render("login", { message: "Admin not found" });
+            }
+
+            console.log("Admin found:", result);
+
+            // Compare the entered password with the hashed password from the database
+            const passwordMatch = bcrypt.compareSync(user_data.Password, result.Password);
+            console.log("Password match result:", passwordMatch);
+
+            if (passwordMatch) {
+                // Password is correct, generate token
+                const token = jwt.sign({ id: result.Admin_ID, Username: result.Username }, "secretKey", { expiresIn: '1h' });
+                res.cookie("token", token); // Set the token as a cookie
+                console.log("Login successful.");
+
+                // Redirect to Admin dashboard (since there is no specific role)
+                return res.redirect("/admin/Admindashboard"); // Redirect to Admin dashboard
+            } else {
+                console.log("Incorrect password");
+                return res.render("login", { message: "Incorrect password" });
+            }
+        })
+        .catch(error => {
+            console.error("Error during login:", error);
+            res.render("login", { message: "Server error" });
+        });
+};
+
+
+
+// Get total Active tenants
+const getTotalActiveTenants = (req, res) => {
+    models.tenant.count({
         where: {
             Users_Status: 'Active'  
         }
     })
-    .then(activeStaff => {
-        res.json({ activeStaff });
+    .then(totalActiveTenants => {
+        res.json({ totalActiveTenants });
     })
     .catch(error => {
-        console.error('Error fetching active clinic staff:', error);
+        console.error('Error fetching active tenants :', error);
         res.status(500).json({ error: 'Unable to fetch data' });
     });
 };
-
-
-// Get total active patients
-const getTotalActivePatients = (req, res) => {
-    models.Patient.count({
-        where: {
-            Patient_Status: 'Active' 
-        }
-    })
-    .then(activePatients => {
-        res.json({ activePatients });
-    })
-    .catch(error => {
-        console.error('Error fetching active patients:', error);
-        res.status(500).json({ error: 'Unable to fetch data' });
-    });
-};
-
 
 
 
@@ -181,7 +170,7 @@ const addUser = (req, res) => {
     console.log("Hashed password:", data_addUser.Password);
 
     // Insert data into the ClinicStaff table
-    models.ClinicStaff.create(data_addUser)
+    models.tenant.create(data_addUser)
         .then(result => {
             console.log("New user added successfully:", result);
             res.redirect("/admin/usermanagement?message=UserAdded");
@@ -196,7 +185,7 @@ const addUser = (req, res) => {
 // Edit User
 const editUser = (req, res) => {
     const userId = req.params.id;
-    models.ClinicStaff.findOne({
+    models.tenant.findOne({
         where: { Users_ID: userId }
     })
     .then(user => {
@@ -223,7 +212,7 @@ const updateUser = (req, res) => {
         Users_Status: req.body.status,
     };
 
-    models.ClinicStaff.update(updatedData, {
+    models.tenant.update(updatedData, {
         where: { Users_ID: userId }
     })
     .then(() => {
@@ -235,156 +224,20 @@ const updateUser = (req, res) => {
     });
 };
 
-// // Delete User
-// const deleteUser = (req, res) => {
-//     const userId = req.params.id;
-//     models.user.destroy({
-//         where: { Users_ID: userId }
-//     })
-//     .then(() => {
-//         res.redirect("/admin/usermanagement?message=UserDeleted");
-//     })
-//     .catch(error => {
-//         console.error("Error deleting user:", error);
-//         res.redirect("/admin/usermanagement?message=ServerError");
-//     });
-// };
-
-
-//get the recent appointments
-const getRecentAppointments = async (req, res) => {
-    try {
-        const statusFilter = req.query.status || null;
-        const whereClause = statusFilter ? { Appointment_Status: statusFilter } : {};
-
-        const appointments = await models.Appointment.findAll({
-            where: whereClause,
-            include: [
-                {
-                    model: models.Patient,
-                    as: 'Patient',
-                    attributes: ['Patient_FirstName', 'Patient_LastName']
-                }
-            ],
-            order: [['Appointment_Date', 'DESC'], ['Appointment_Time', 'DESC']],
-            limit: 5
-        });
-
-        const recentAppointments = appointments.map(appointment => ({
-            patientName: `${appointment.Patient.Patient_FirstName} ${appointment.Patient.Patient_LastName}`,
-            date: new Date(appointment.Appointment_Date).toLocaleDateString("en-CA"),
-            time: appointment.Appointment_Time,
-            status: appointment.Appointment_Status
-        }));
-
-        res.json(recentAppointments);
-    } catch (error) {
-        console.error('Error fetching recent appointments:', error);
-        res.status(500).json({ error: 'Failed to fetch recent appointments' });
-    }
-};
-
-    //GET THE RECENT reg. patients
-
-    const getRecentPatients = async (req, res) => {
-        try {
-            const recentPatients = await models.Patient.findAll({
-                attributes: ['Patient_FirstName', 'Patient_LastName', 'createdAt'],
-                order: [['createdAt', 'DESC']],
-                limit: 5 // Fetch recent 5 patients
-            });
-            
-            res.json(recentPatients.map(patient => ({
-                name: `${patient.Patient_FirstName} ${patient.Patient_LastName}`,
-                registrationDate: new Date(patient.createdAt).toLocaleDateString("en-CA")
-            })));
-        } catch (error) {
-            console.error('Error fetching recent patients:', error);
-            res.status(500).json({ error: 'Unable to fetch recent patients' });
-        }
-    };
-        
-
-
-    //filter app.
-
-    const getFilteredAppointments = async (req, res) => {
-        try {
-            const filter = req.query.filter || 'daily'; // Default to daily if no filter is provided
-            const now = new Date();
-            let startDate, endDate;
-    
-            // Determine the date range based on the filter
-            switch (filter) {
-                case 'daily':
-                    startDate = new Date(now.getFullYear(), now.getMonth(), now.getDate());
-                    endDate = new Date(now.getFullYear(), now.getMonth(), now.getDate() + 1);
-                    break;
-                case 'weekly':
-                    const weekStart = now.getDate() - now.getDay(); // Sunday as the start of the week
-                    startDate = new Date(now.getFullYear(), now.getMonth(), weekStart);
-                    endDate = new Date(now.getFullYear(), now.getMonth(), weekStart + 7);
-                    break;
-                case 'monthly':
-                    startDate = new Date(now.getFullYear(), now.getMonth(), 1);
-                    endDate = new Date(now.getFullYear(), now.getMonth() + 1, 1);
-                    break;
-                default:
-                    return res.status(400).json({ error: 'Invalid filter value' });
-            }
-    
-            // Fetch appointments within the date range
-            const appointments = await models.Appointment.findAll({
-                where: {
-                    Appointment_Date: {
-                        [models.Sequelize.Op.between]: [startDate, endDate]
-                    }
-                },
-                include: [{
-                    model: models.Patient,
-                    as: 'Patient',
-                    attributes: ['Patient_FirstName', 'Patient_LastName']
-                }],
-                order: [['Appointment_Date', 'ASC'], ['Appointment_Time', 'ASC']]
-            });
-    
-            // Format the appointments for the response
-            const filteredAppointments = appointments.map(appointment => ({
-                id: appointment.Appointment_ID,
-                patientName: `${appointment.Patient.Patient_FirstName} ${appointment.Patient.Patient_LastName}`,
-                date: new Date(appointment.Appointment_Date).toLocaleDateString("en-CA"),
-                time: appointment.Appointment_Time,
-                purpose: appointment.Appointment_Purpose,
-                status: appointment.Appointment_Status
-            }));
-    
-            res.json(filteredAppointments);
-        } catch (error) {
-            console.error('Error fetching filtered appointments:', error);
-            res.status(500).json({ error: 'Failed to fetch appointments' });
-        }
-    };
-    
-
 
 module.exports = {
     Admindashboard_view,
     usermanagement_view,
-    logs_view,
-    Staffdashboard_view,
-    appointment_view,
-    patients_view,
-    logout,
+    payment_view,
+    message_view,
+    login_view,
+    register_view,
+    save_user,
+    login_user,
     addUser,
-    getTotalClinicStaff,
     editUser,
     updateUser,
-    // deleteUser,
-    landing_view,
-    reports_view,
-    getTotalActiveClinicStaff,
-    getTotalActivePatients,
-    getRecentAppointments,
-    getRecentPatients,
-    getFilteredAppointments
+    getTotalActiveTenants
+
+  
 };

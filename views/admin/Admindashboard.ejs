@@ -23,14 +23,15 @@
     <aside class="sidebar">
         <div class="sidebar-header">
             <img src="/image/image.png" alt="logo">
-            <h3>Title sa inyong System</h3>
+          <h3>Title</h3>
         </div>
         <ul class="sidebar-links">
             <!-- <h4>Main Menu</h4> -->
             <div class="menu-separator"></div>
             <li><a href="Admindashboard"><span class="material-symbols-outlined">Dashboard</span>Dashboard</a></li>
             <li><a href="usermanagement"><span class="material-symbols-outlined">Manage_Accounts</span>Tenants</a></li>
-            <li><a href="patients"><span class="material-symbols-outlined">chat</span>Messages</a></li>
+            <li><a href="payment"><span class="material-symbols-outlined">payments</span>Payment</a></li>
+            <li><a href="message"><span class="material-symbols-outlined">chat</span>Messages</a></li>
             <li><a href="/login"><span class="material-symbols-outlined">Logout</span>Logout</a></li>
         </ul>
         
@@ -73,21 +74,12 @@
 
             <div class="stat-number" id="fundAmount">₱345,345</div>
 
-            <span class="material-symbols-outlined icon-large">payments</span>
+            <!-- <span class="material-symbols-outlined icon-large">payments</span> -->
           
 
         </div>
     </div>
-</div>
 
-                    <div class="metric-box">
-                        <h6>Total Expenses</h6>
-                        <!-- <div class="stat-number" id="totalActiveStaff"> -->
-                            <div class="stat-number" >  ₱45,345
-                           
-                        </div>
-                        <span class="material-symbols-outlined icon-large"> request_quote</span>
-                    </div>
 
                     <div class="metric-box">
                         <h6>Net Balance</h6>
@@ -105,14 +97,24 @@
                         </div>
                     <span class="material-symbols-outlined icon-large"> request_quote</span>
                     </div>
+
+
+                    
+                    <div class="metric-box">
+                        <h6>Total Active Tenants</h6>
+                        <div class="stat-number" id="totalActiveTenants">
+                            <span>Loading...</span>
+                        </div>
+                        <span class="material-symbols-outlined icon-large">people</span> 
+                    </div>
                 </div>
         
-                </div>
                 
                 
             </div>
         </section>
 
+        <br>
         <br>
 
            <div class="sticky-header">
@@ -156,6 +158,8 @@
 
 <br>
 
+<br>
+
              <div class="sticky-header">
             <h2>Tenants Details</h2>
         </div>
@@ -168,114 +172,6 @@
     </main>
 
 
-    <script>
-        // Fetch total clinic staff
-        fetch('/admin/getTotalClinicStaff')
-            .then(response => response.json())
-            .then(data => {
-                document.getElementById('totalStaffUsers').innerText = data.totalStaff;
-            })
-            .catch(error => {
-                console.error('Error fetching total clinic staff users:', error);
-                document.getElementById('totalStaffUsers').innerText = 'Error loading data';
-            });
-
-        // Fetch total number of patients
-        fetch('/staff/getTotalPatients') 
-            .then(response => response.json())
-            .then(data => {
-                document.getElementById('totalPatients').innerText = data.totalPatients;
-            })
-            .catch(error => {
-                console.error('Error fetching total patients:', error);
-                document.getElementById('totalPatients').innerText = 'Error loading data';
-            });
-
-        // Fetch total active clinic staff
-        fetch('/admin/getTotalActiveClinicStaff')
-            .then(response => response.json())
-            .then(data => {
-                document.getElementById('totalActiveStaff').innerText = data.activeStaff;
-            })
-            .catch(error => {
-                console.error('Error fetching active clinic staff users:', error);
-                document.getElementById('totalActiveStaff').innerText = 'Error loading data';
-            });
-
-
-        // Fetch total active patients
-        fetch('/admin/getTotalActivePatients')
-            .then(response => response.json())
-            .then(data => {
-                document.getElementById('totalActivePatients').innerText = data.activePatients;
-            })
-            .catch(error => {
-                console.error('Error fetching active patients:', error);
-                document.getElementById('totalActivePatients').innerText = 'Error loading data';
-            });
-
-            //fetch recent appointments
-            fetch('/admin/getRecentAppointments')
-                .then(response => response.json())
-                .then(data => {
-                    const appointmentsList = document.getElementById('recent-appointments-list');
-                    appointmentsList.innerHTML = ''; // Clear existing content
-                    if (data.length > 0) {
-                        data.forEach(appointment => {
-                            const row = document.createElement('tr');
-                            row.innerHTML = `
-                                <td>${appointment.patientName}</td>
-                                <td>${appointment.date}</td>
-                                <td>${appointment.status}</td>
-                            `;
-                            appointmentsList.appendChild(row);
-                        });
-                    } else {
-                        appointmentsList.innerHTML = '<tr><td colspan="3">No recent appointments</td></tr>';
-                    }
-                })
-                .catch(error => {
-                    console.error('Error fetching recent appointments:', error);
-                    document.getElementById('recent-appointments-list').innerHTML = '<tr><td colspan="3">Error loading appointments</td></tr>';
-                });
-
-
-            // Fetch recent patients from the backend
-        fetch('/admin/getRecentpatients')
-            .then(response => {
-                if (!response.ok) {
-                    throw new Error('Network response was not ok');
-                }
-                return response.json();
-            })
-            .then(data => updateDashboardUI(data))
-            .catch(error => {
-                console.error('Error fetching recent patients:', error);
-                const tbody = document.getElementById('recent-patients-list');
-                tbody.innerHTML = '<tr><td colspan="2">Error fetching data</td></tr>';
-            });
-
-        // Update the table with patient data
-        function updateDashboardUI(patients) {
-            const tbody = document.getElementById('recent-patients-list');
-            tbody.innerHTML = ''; // Clear existing content
-
-            if (patients.length > 0) {
-                patients.forEach(patient => {
-                    const row = document.createElement('tr');
-                    row.innerHTML = `
-                        <td>${patient.name}</td>
-                        <td>${patient.registrationDate}</td>
-                    `;
-                    tbody.appendChild(row);
-                });
-            } else {
-                tbody.innerHTML = '<tr><td colspan="2">No recent patients found</td></tr>';
-            }
-        }
-
-
-    </script>
 
 
 <script>
@@ -354,6 +250,22 @@ function loadFunds() {
 updateDisplay();
 loadFunds();
 </script>
+
+
+
+<script>
+    // Fetch total active tenants
+    fetch('/admin/getTotalActiveTenants')
+        .then(response => response.json())
+        .then(data => {
+            document.getElementById('totalActiveTenants').innerText = data.totalActiveTenants;
+        })
+        .catch(error => {
+            console.error('Error fetching active tenant users:', error);
+            document.getElementById('totalActiveTenants').innerText = 'Error loading data';
+        });
+</script>
+
 
 </body>
 </html>
