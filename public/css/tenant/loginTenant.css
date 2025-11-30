@@ -6,7 +6,7 @@ body {
     min-height: 100vh;
     margin: 0;
     background-color: #c0d6ff;
-    background: linear-gradient(to right, #e2e2e2, #c9f1ff);
+    background: linear-gradient(to right, #e2e2e2, #60376b);
     font-family: Arial, sans-serif;
 }
 
@@ -40,7 +40,7 @@ body {
 
 .heading {
     font-size: 3rem;
-    color: #3a6d84;
+    color: black;
     font-weight: bold;
     margin: 0;
 }
@@ -92,7 +92,7 @@ body {
 
 /* Button */
 .btn-primary {
-    background-color: #176B87;
+    background-color: #42224A;
     color: white;
     padding: 10px 20px;
     border: none;
@@ -105,7 +105,7 @@ body {
 
 .btn-primary:hover {
     transform: scale(1.05);
-    background-color: #2781a0;
+    background-color: #42224A;
 }
 
 /* Link */

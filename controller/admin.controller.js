@@ -60,9 +60,9 @@ const save_user = (req, res) => {
     const user_data = {
         FirstName: req.body.firstName_data,
         LastName: req.body.lastName_data,
-        Admin_Birthdate: req.body.birthdate_data,
-        Admin_Gender: req.body.gender_data,
-        ContactNumber: req.body.contactNumber_data,
+        // Admin_Birthdate: req.body.birthdate_data,
+        // Admin_Gender: req.body.gender_data,
+        // ContactNumber: req.body.contactNumber_data,
         Username: req.body.Username_data,
         Password: req.body.Password_data,
     };
@@ -157,7 +157,7 @@ const addUser = (req, res) => {
     const data_addUser = {
         FirstName: req.body.firstName_data,
         LastName: req.body.lastName_data,
-        Users_Birthdate: req.body.birthdate_data,
+        Address: req.body.address_data,  // updated
         Users_Gender: req.body.gender_data,
         ContactNumber: req.body.contactNumber_data,
         Users_Status: req.body.status,
@@ -167,9 +167,8 @@ const addUser = (req, res) => {
 
     // Hash the password before saving
     data_addUser.Password = bcrypt.hashSync(data_addUser.Password, 10);
-    console.log("Hashed password:", data_addUser.Password);
 
-    // Insert data into the ClinicStaff table
+    // Insert data into the tenant table
     models.tenant.create(data_addUser)
         .then(result => {
             console.log("New user added successfully:", result);
@@ -180,6 +179,7 @@ const addUser = (req, res) => {
             res.redirect("/admin/usermanagement?message=UsernameAlreadyExist!");
         });
 };
+
 
 
 // Edit User

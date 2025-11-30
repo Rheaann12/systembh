@@ -9,7 +9,7 @@
 /* #7E60BF purple ni*/ 
 
 body {
-    min-height: 95vh;
+    max-height: 90vh;
     background-color: #c0d6ff;
     background: linear-gradient(to right, #e2e2e2, #60376b);
 }
@@ -160,31 +160,28 @@ body {
     border-radius: 15px;
 }
 
+.sticky-header h4 {
+    font-size: 1.25rem;
+     color: black;
+    margin-bottom: 15px;
+}
+
 .main-content {
     background-color: #ffffff;
-    width: 87%;
-    height: 100%;
+    max-height: 85vh;
+    width: 85%; 
+    overflow: hidden; 
     border-radius: 15px;
-    /* padding: auto 2rem; */
-    margin-left: 85px; /* Space for sidebar */
-    padding: 20px;
-    margin-left: 10%;
+    margin-left: 10%; 
     margin-top: 6%;
+    padding: 20px;
     transition: margin-left 0.4s ease;
 }
+
 
 .sidebar:hover + .main-content {
     margin-left: 280px; 
 }
-
-
-.sticky-header h4 {
-    font-size: 1.40rem;
-    color: black;
-    margin-bottom: 15px;
-    margin-left: 5px;
-}
-
 
 
 /* Button styling */
@@ -215,18 +212,30 @@ body {
 }
 
 .btn-edit {
-    color: #42224A;
-    font-size: x-small;
-    text-decoration: none;
-    transition: color 0.3s ease; /* Smooth transition for hover */
+    color: rgb(21, 160, 214); 
+    font-size: x-small; 
+    background: none; 
+    border: none; 
+    cursor: pointer; 
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    transition: color 0.3s ease, transform 0.2s ease; /* Smooth transitions */
   }
   
   .btn-edit:hover {
-    color:#42224A;
-    
+    color: rgb(0, 123, 255); 
+    transform: scale(1.1); 
   }
+  
 
 
+/* .btn-danger {
+    background-color: #dc3545; 
+    color: white;
+    font-size: x-small;
+    text-decoration: none;
+} */
 
 
 table{
@@ -235,43 +244,62 @@ table{
 }
 
 
-/* Table container for horizontal scroll */
+/*horizontal scroll */
 .table-responsive {
-    overflow-x: auto;
+    overflow-x: auto; 
+    max-height: calc(85vh - 40px);
+    height: 50rem;
     width: 100%;
-    height:50rem;
+    padding-bottom: 10px;
+    margin-top: 10px;
 }
 
 .reports-table {
     width: 100%;
-    min-width: 1100px; /*min width for horizontal scroll */
+    min-width: 1100px; /* Adjust based on your needs */
     background-color: #f8f9fa;
-    border-radius: 8px;
-    overflow: hidden;
-    box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.1);
-}
-
-.reports-table thead th {
-    background-color: #42224A;
-    color: #ffffff;
-    font-weight: 500;
-    padding: 12px;
+    border-collapse: collapse;
     text-align: center;
-    border-bottom: 2px solid #145b73;
+    border-radius: 8px;
 }
 
+
+.reports-table th {
+    background-color: #176B87;
+    color: white;
+    padding: 10px;
+    /* font-weight: normal; */
+}
 .reports-table tbody td {
     padding: 12px;
     color: #333;
     border-bottom: 1px solid #e9ecef;
 }
 
+/* .reports-table td {
+    padding: 8px;
+    border: 1px solid #ddd;
+    white-space: nowrap; 
+} */
+.reports-table tbody {
+    max-height: 60vh; /* Limit table body height for scrolling */
+    overflow-y: auto;
+    display: block; /* Allow independent scrolling */
+}
+
+.reports-table thead, .reports-table tbody tr {
+    display: table;
+    width: 100%; /* Maintain alignment */
+    table-layout: fixed; /* Prevent content misalignment */
+}
+
+
 .reports-table tbody tr:nth-child(even) {
     background-color: #f2f2f2;
 }
 
 .reports-table tbody tr:hover {
-    background-color: #8dc0d043;
+    background-color: #46b2d643;
 }
 
 
@@ -279,11 +307,19 @@ table{
 /* Responsive adjustments */
 @media (max-width: 430px) {
     .main-content {
-        margin-left: 20px;
+        margin-left: 0;
     }
 
     .main-content h2, .main-content h4 {
         font-size: 1.25rem;
+    }
+}
+
+
+@media (max-width: 768px) {
+    .main-content {
+        margin-left: 85px;
+        margin-top: 8%;
     }
 
     .sidebar {
@@ -294,22 +330,12 @@ table{
         width: 200px;
     }
 
-    .main-content {
-        margin-left: 100px; 
-        width: calc(100% - 100px);
+    .reports-table {
+        min-width: 800px;
     }
-
-    .sidebar:hover + .main-content {
-        margin-left: 200px;
-        width: calc(100% - 200px);
-    }
-
-
 }
 
-
-
-
+/* Modal styling */
 /* Modal styling */
 .modal {
     display: none;
@@ -321,7 +347,7 @@ table{
     height: 100%;
     overflow: auto;
     background-color: rgba(0, 0, 0, 0.5);
-    padding-top: 60px;
+    padding-top: 60px; /* Adds space from the top */
 }
 
 .modal-content {
@@ -329,14 +355,16 @@ table{
     margin: auto;
     padding: 20px;
     border: 1px solid #888;
-    width: 60%;
-    max-width: 400px;
+    width: 250px; /* Fixed width for consistent size */
     border-radius: 8px;
     box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.1);
 }
 
-.modal-content h3{
-    color: #42224A;
+
+.modal-content h2{
+    color: #176B87;
+    font-size: large;
+    margin-top: 8px;
 }
 
 .close {
@@ -354,6 +382,23 @@ table{
     cursor: pointer;
 }
 
+/* Style for the Save Changes button */
+.editsaveButton {
+    background-color: #136f99; 
+    color: white; 
+    border: none; 
+    border-radius: 5px; /* Rounded corners */
+    font-size: small; 
+    cursor: pointer;
+    width: 100%; /* Full width button */
+    margin-top: 10px; 
+    transition: background-color 0.3s ease; 
+}
+
+/* Hover effect */
+.editsaveButton:hover {
+    background-color: #39a2e7; 
+}
 
 
 
@@ -361,6 +406,7 @@ table{
 form {
     display: flex;
     flex-direction: column;
+    color: #000;
   
    
 }
@@ -371,6 +417,7 @@ form label {
     color: rgb(91, 85, 85);
 }
 
+
 form input, form select {
     padding: 5px;
     font-size: small;
@@ -378,22 +425,11 @@ form input, form select {
     border: 1px solid #ccc;
     margin-bottom: 5px;
     width: 100%;
-    
-
  
 }
 
-
-
-
-.form-control{
-    color:black
-  
-}
-
-
 form button {
-    background-color: #42224A;
+    background-color: #007bff;
     color: white;
     padding: 10px 15px;
     border: none;
@@ -403,43 +439,34 @@ form button {
 }
 
 form button:hover {
-    background-color: #42224A;
+    background-color: #0056b3;
 }
 
 /* Button styling */
-.btn-success, .btn-add {
-    background-color: #42224A;
+.btn-success {
+    background-color: #176b87;
     color: white;
     padding: 10px 20px;
     border: none;
-    border-radius: 10px;
+    border-radius: 5px;
     font-size: 1rem;
     cursor: pointer;
-    transition: transform 0.3s ease;
 }
 
-.btn-success:hover, .btn-add:hover, .btn-success:focus, .btn-add:focus {
-    transform: scale(1.05);
-    background-color: #42224A;
+.btn-success:hover {
+    background-color: #104e63;
 }
 
-.btn-success:focus, .btn-add:focus{
-    outline: none;
-    box-shadow: 0 0 5px rgba(76, 175, 80, 0.5);;
-}
 
-.btn-edit{
-    cursor: pointer;
-    transition: transform 0.3s ease;
-}
-.btn-edit:hover, .btn-edit:focus{
-    transform: scale(1.05);
-}
+
 
 .form-text{
     font-size: x-small;
     color: darkgray;
 }
+
+
+
 
 
 .add-search {
@@ -449,10 +476,13 @@ form button:hover {
     margin-bottom: 15px;
 }
 
+.filter-section{
+    display: flex;
+    justify-content: space-between;
+}
 
 /* Styles for Search Container */
 .search-container {
-    display: flex-end;
     align-items: center;
     margin-top: 10px;
 
@@ -502,17 +532,15 @@ form button:hover {
 
 /* Filter Container */
 .filter-container {
-    margin: 10px 0;
-    display: flex;
+    justify-content: flex-end; 
     align-items: center;
-   
+    margin: 10px 0;
 }
 
 /* Label Styling */
 .filter-container label {
     font-size: small;
     margin-right: 10px;
-     
     
 }
 
@@ -528,12 +556,14 @@ form button:hover {
 /* Styling for the dropdown when focused */
 #statusFilter:focus {
     outline: none;
-    border-color: #42224A; /* Change the border color when focused */
-    box-shadow: 0 0 5px #42224A;
+    border-color: #176B87;; /* Change the border color when focused */
+    box-shadow: 0 0 5px rgba(52, 121, 144, 0.5); /* Add a light shadow for focus */
 }
 
 #searchInput:focus {
     outline: none;
-    border-color: #42224A; /* Change the border color when focused */
-    box-shadow: 0 0 5px #42224A;
+    border-color: #176B87;; /* Change the border color when focused */
+    box-shadow: 0 0 5px rgba(52, 121, 144, 0.5); /* Add a light shadow for focus */
 }
+
+

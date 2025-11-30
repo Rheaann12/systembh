@@ -1,8 +1,3 @@
-
-// models
-//tenant
-
-
 module.exports = (sequelize, DataTypes) => {
     const tenant = sequelize.define('tenant', { 
         Users_ID: {
@@ -18,8 +13,8 @@ module.exports = (sequelize, DataTypes) => {
             type: DataTypes.STRING,
             allowNull: false
         },
-        Users_Birthdate: {
-            type: DataTypes.DATE,
+        Address: {                  // Added Address field
+            type: DataTypes.STRING,
             allowNull: false
         },
         Users_Gender: {
@@ -46,9 +41,8 @@ module.exports = (sequelize, DataTypes) => {
     }, {
         sequelize,
         modelName: 'tenant',
-        timestamps: true // Ensure timestamps are enabled
-      });
-  
+        timestamps: true
+    });
 
     return tenant;
 };

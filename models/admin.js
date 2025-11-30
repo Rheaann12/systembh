@@ -13,18 +13,18 @@ module.exports = (sequelize, DataTypes) => {
             type: DataTypes.STRING,
             allowNull: false
         },
-        Admin_Birthdate: { 
-            type: DataTypes.DATE,
-            allowNull: false
-        },
-        Admin_Gender: { 
-            type: DataTypes.STRING,
-            allowNull: false
-        },
-        ContactNumber: {
-            type: DataTypes.STRING,
-            allowNull: false
-        },
+        // Admin_Birthdate: { 
+        //     type: DataTypes.DATE,
+        //     allowNull: false
+        // },
+        // Admin_Gender: { 
+        //     type: DataTypes.STRING,
+        //     allowNull: false
+        // },
+        // ContactNumber: {
+        //     type: DataTypes.STRING,
+        //     allowNull: false
+        // },
     
         Username: {
             type: DataTypes.STRING,

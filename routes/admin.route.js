@@ -10,8 +10,6 @@ const router = express.Router();
 
 // Admin Routes
 
-
-
 router.get("/login", admin_Controller.login_view   ) 
 router.get("/register", admin_Controller.register_view )
 

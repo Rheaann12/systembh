@@ -1,30 +1,26 @@
-
 const jwt = require("jsonwebtoken");
 const models = require("../models");
 
-const authenticateUser = (req, res, next) => {
+const authenticateUser = async (req, res, next) => {
     const token = req.cookies.token;
     if (!token) {
-        return res.redirect("/staff/login?message=SessionExpired");
+        return res.redirect("/tenant/loginTenant?message=SessionExpired");
     }
 
     try {
         const decoded = jwt.verify(token, "secretKey");
-        models.ClinicStaff.findByPk(decoded.id)
-            .then((staff) => {
-                if (!staff) {
-                    return res.redirect("/staff/login?message=UserNotFound");
-                }
-                req.staff = staff; // Attach staff details to the request
-                next();
-            })
-            .catch(() => res.redirect("/staff/login?message=ServerError"));
+
+        // Find tenant by primary key
+        const tenant2 = await models.tenant.findByPk(decoded.id);
+        if (!tenant2) {
+            return res.redirect("/tenant/loginTenant?message=UserNotFound");
+        }
+
+        req.tenant2 = tenant2; // Attach tenant data to request
+        next();
     } catch (error) {
-        return res.redirect("/staff/login?message=InvalidToken");
+        return res.redirect("/tenant/loginTenant?message=InvalidToken");
     }
 };
 
 module.exports = { authenticateUser };
-
-
-
