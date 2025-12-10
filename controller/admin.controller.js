@@ -16,10 +16,20 @@ const Admindashboard_view = (req, res) => {
     res.render("admin/Admindashboard");
 };
 
-const payment_view= (req, res) => {
-    res.render("admin/payment");
-};
 
+const payment_view = async (req, res) => {
+  try {
+    const deposits = await models.Deposit.findAll({
+      order: [['createdAt', 'DESC']],
+    });
+
+    // Pass deposits to EJS
+    res.render('admin/payment', { deposits }); // <-- make sure the key is exactly 'deposits'
+  } catch (error) {
+    console.error(error);
+    res.render('admin/payment', { deposits: [] }); // fallback to empty array
+  }
+};
 
 
 const message_view= (req, res) => {
@@ -366,7 +376,54 @@ const getRoomStats = async (req, res) => {
 };
 
 
+
+// ADD DEPOSIT
+const addDeposit = async (req, res) => {
+    try {
+        const { tenant_name, deposit_amount, partial_deposit } = req.body;
+
+        // Compute balance
+        const balance_deposit = deposit_amount - (partial_deposit || 0);
+
+        // Determine status
+        let payment_status = "Unpaid";
+        if (partial_deposit > 0 && balance_deposit > 0) payment_status = "Partial";
+        if (balance_deposit === 0) payment_status = "Paid";
+
+        await models.Deposit.create({
+            tenant_name,
+            deposit_amount,
+            partial_deposit: partial_deposit || 0,
+            balance_deposit,
+            payment_status,
+            partial_date: partial_deposit ? new Date() : null  // optional date for partial payment
+        });
+
+        res.redirect("/admin/payment?message=DepositAdded");
+    } catch (error) {
+        console.error("Error adding deposit:", error);
+        res.redirect("/admin/payment?message=Error");
+    }
+};
+
+// GET all deposits
+const getAllDeposits = async (req, res) => {
+    try {
+        const deposits = await models.Deposit.findAll({
+            order: [["createdAt", "DESC"]] // latest first
+        });
+
+        // Render the EJS view with deposits
+        res.render('admin/payment', { deposits });
+    } catch (error) {
+        console.error("Error fetching deposits:", error);
+        res.render('admin/payment', { deposits: [] }); // fallback
+    }
+};
+
 module.exports = {
+    addDeposit,
+    getAllDeposits,
     getRoomStats,
     getTotalRooms,
     updateRoom,

@@ -98,5 +98,10 @@ router.get("/admin/getTotalRooms", admin_Controller.getTotalRooms);
 router.get("/admin/getRoomStats", admin_Controller.getRoomStats);
 router.get("/admin/getTotalActiveTenants", admin_Controller.getTotalActiveTenants);
 
+//  fetch deposits
+router.get("/admin/payment", admin_Controller.getAllDeposits);
+
+// Add deposit
+router.post("/admin/addDeposit", admin_Controller.addDeposit);
 
 module.exports = router;
