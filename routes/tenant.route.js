@@ -11,5 +11,6 @@ router.post("/tenant/login-tenant", tenant_Controller.login_tenant);
 // Protected routes
 router.get("/tenant/tenantPayment", authenticateUser, tenant_Controller.tenantPayment_view);
 router.get("/tenant/tenantMessage", authenticateUser, tenant_Controller.tenantMessage_view);
+router.get("/tenant/history", authenticateUser, tenant_Controller.history_view);
 
 module.exports = router;

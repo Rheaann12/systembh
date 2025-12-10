@@ -13,6 +13,11 @@ const tenantMessage_view = (req, res) => {
     const tenant2 = req.tenant2.toJSON();
     res.render("tenant/tenantMessage", { tenant2 });
 };
+const history_view = (req, res) => {
+    const tenant2 = req.tenant2.toJSON();
+    res.render("tenant/history", { tenant2 });
+};
+
 
 // VIEW: Login Page
 const loginTenant_view = (req, res) => {
@@ -55,5 +60,7 @@ module.exports = {
     tenantMessage_view,
     tenantPayment_view,
     loginTenant_view,
-    login_tenant
+    login_tenant,
+    history_view
+
 };

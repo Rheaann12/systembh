@@ -10,17 +10,43 @@
     <link rel="stylesheet" href="/css/admin/room.css"> 
 </head>
 <body>
-    <!-- Header -->
-    <div class="header">
-        <div class="user-account">
-            <div class="user-profile">
-                <img src="/image/profile-img.png" alt="profile-img">
-                <div class="user-detail">
-                    <h3>Admin</h3>
-                </div>
+<div class="header">
+
+    <!-- Notifications -->
+    <div class="notifications">
+        <span class="material-symbols-outlined" id="notifIcon">notifications</span>
+        <div class="notif-count" id="notifCount">3</div>
+    </div>
+
+    
+    <!-- User Account -->
+    <div class="user-account">
+        <div class="user-profile">
+            <img src="/image/profile-img.png" alt="profile-img">
+            <div class="user-detail">
+                <h3>Aileen Mercado</h3>
+                <span>Landlord</span>
             </div>
         </div>
     </div>
+</div>
+
+<!-- Notification Popup -->
+<div class="notif-popup" id="notifPopup">
+    <div class="notif-popup-header">
+        <h4>Notifications</h4>
+        <span id="closeNotif">&times;</span>
+    </div>
+    <div class="notif-popup-body">
+        <p class="notif-item">New payment received from Juan Dela Cruz</p>
+        <p class="notif-item">Room 101 is now available</p>
+        <p class="notif-item">Tenant Maria updated profile</p>
+    </div>
+    <div class="notif-popup-footer">
+        <p class="view-all">View all notifications</p>
+    </div>
+</div>
+
 
     <!-- Sidebar -->
     <aside class="sidebar">
@@ -34,7 +60,14 @@
             <li><a href="usermanagement"><span class="material-symbols-outlined">manage_accounts</span>Tenants</a></li>
             <li><a href="room"><span class="material-symbols-outlined">room_preferences</span>Room</a></li>
             <li><a href="payment"><span class="material-symbols-outlined">payments</span>Payment</a></li>
-            <li><a href="message"><span class="material-symbols-outlined">chat</span>Messages</a></li>
+        
+            <li class="messages">
+    <a href="message" class="messages-link">
+        <span class="material-symbols-outlined" id="messageIcon">chat</span>
+        Messages
+        <span class="msg-count" id="msgCount">5</span>
+    </a>
+</li>
             <li><a href="/login"><span class="material-symbols-outlined">logout</span>Logout</a></li>
         </ul>
     </aside>
@@ -361,5 +394,27 @@ function renderTablePage(rooms, page, rowsPerPage) {
 
 
 
+
+<script>
+const notifIcon = document.getElementById('notifIcon');
+const notifPopup = document.getElementById('notifPopup');
+const closeNotif = document.getElementById('closeNotif');
+
+notifIcon.addEventListener('click', () => {
+    notifPopup.style.display = 'block';
+});
+
+closeNotif.addEventListener('click', () => {
+    notifPopup.style.display = 'none';
+});
+
+// Close popup if clicked outside
+window.addEventListener('click', (e) => {
+    if (e.target === notifPopup) return;
+    if (!notifPopup.contains(e.target) && e.target !== notifIcon) {
+        notifPopup.style.display = 'none';
+    }
+});
+</script>
 </body>
 </html>

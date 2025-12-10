@@ -98,4 +98,5 @@ router.get("/admin/getTotalRooms", admin_Controller.getTotalRooms);
 router.get("/admin/getRoomStats", admin_Controller.getRoomStats);
 router.get("/admin/getTotalActiveTenants", admin_Controller.getTotalActiveTenants);
 
+
 module.exports = router;

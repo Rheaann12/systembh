@@ -6,11 +6,12 @@
     <title>Tenant Message</title>
     <!-- Linking Google Font Link For Icons --> 
     <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200" />
-    <link rel="stylesheet" href="/css/tenant/payment.css"> 
+    <link rel="stylesheet" href="/css/tenant/history.css"> 
 </head>
 <body>
       <div class="header">
-   
+  
+
     <!-- Notifications -->
     <div class="notifications">
         <span class="material-symbols-outlined" id="notifIcon">notifications</span>
@@ -56,9 +57,8 @@
             <div class="menu-separator"></div>
            
              <li><a href="tenantPayment"><span class="material-symbols-outlined">payments</span>Payment</a></li>
-            <li><a href="history"><span class="material-symbols-outlined">history</span> History</a></li>
-            
-            <li class="messages">
+           <li><a href="history"><span class="material-symbols-outlined">history</span> History</a></li>
+                        <li class="messages">
     <a href="tenantMessage" class="messages-link">
         <span class="material-symbols-outlined" id="messageIcon">chat</span>
         Messages
@@ -73,35 +73,39 @@
 
   <main class="main-content p-4 w-100">
     <div class="sticky-header">
-        <h4>Payment</h4>
+        <h4>History</h4>
     </div>
 
-    <!-- GCash QR Code Section -->
-    <div class="qr-section">
-        <h5>Scan GCash QR Code to Pay</h5>
-        <img src="/image/gcash-qr.png" alt="GCash QR Code" class="gcash-qr">
-        <p>After paying, upload your receipt below.</p>
-    </div>
+      <!-- User Table -->
+    <div class="table-responsive">
+        <table class="reports-table">
+            <thead>
+                <tr>
+                
+                    <th>Monthly Due Date</th>
+                    <th>Monthly Rent</th>
+                    <th>Date Paid</th>
+                    <th>Amount Paid</th>
+                    <th>Remaining Balance</th>
+                    
+                </tr>
+            </thead>
 
-    <!-- Payment Upload Section -->
-    <div class="payment-section">
-        <h5>Upload GCash Receipt</h5>
-        <form action="/tenant/uploadReceipt" method="POST" enctype="multipart/form-data">
-            <div class="form-group">
-                <label for="amount">Amount Paid:</label>
-                <input type="number" id="amount" name="amount" placeholder="Enter amount" required>
-            </div>
+            <tbody>
+                <td> 10-29-25 </td>
+                <td> 1,000 </td>
+                <td> 10-30-25 </td>
+                <td> 500 </td>
+                <td> 500 </td>
 
-            <div class="form-group">
-                <label for="receipt">Upload Receipt (GCash screenshot):</label>
-                <input type="file" id="receipt" name="receipt" accept="image/*" required>
-            </div>
+            </tbody>
 
-            <button type="submit">Submit Payment</button>
-        </form>
-    </div>
+            
+
+        </table>
+    
+
 </main>
-
 
 
 <script>
@@ -125,6 +129,9 @@ window.addEventListener('click', (e) => {
     }
 });
 </script>
+
+
+
 
 </body>
 </html>

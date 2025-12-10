@@ -536,3 +536,134 @@ form button:hover {
     border-color: #42224A; /* Change the border color when focused */
     box-shadow: 0 0 5px #42224A;
 }
+
+
+
+
+/* Message icon container */
+.messages {
+    position: relative;
+    margin-right: 5px;
+}
+
+/* Message bell */
+.messages #messageIcon {
+    font-size: 28px;
+    color: white;
+    cursor: pointer;
+}
+
+/* Message count badge */
+.msg-count {
+    position: absolute;
+    top: -8px;     /* above the icon */
+    right: -8px;   /* slightly to the right */
+    background: red; 
+    color: white;
+    font-size: 0.7rem;
+    width: 18px;
+    height: 18px;
+    border-radius: 50%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-weight: bold;
+    pointer-events: none; /* clicks pass to icon */
+}
+
+
+.notifications {
+    position: relative;
+    margin-right: 30px;
+}
+
+/* Bell icon cursor */
+.notifications #notifIcon {
+    font-size: 28px;
+    color: #176B87;
+    cursor: pointer;
+}
+
+/* Notification count badge */
+.notif-count {
+    position: absolute;
+    top: -8px;     /* moves badge above the bell */
+    right: -8px;   /* moves badge to the right */
+    background: red; 
+    color: white;
+    font-size: 0.7rem;
+    width: 18px;
+    height: 18px;
+    border-radius: 50%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-weight: bold;
+    pointer-events: none; /* clicks pass to bell */
+}
+
+/* Popup styles */
+.notif-popup {
+    display: none; /* hidden by default */
+    position: fixed;
+    top: 5%;
+    left: 80%;
+    transform: translateX(-50%);
+    width: 350px;
+    background: #fff;
+    border-radius: 12px;
+    box-shadow: 0 10px 30px rgba(0,0,0,0.25);
+    z-index: 10000;
+    overflow: hidden;
+    animation: fadeIn 0.3s ease;
+}
+
+.notif-popup-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    background: #42224A;
+    color: white;
+    padding: 12px 20px;
+}
+
+.notif-popup-header h4 {
+    margin: 0;
+}
+
+.notif-popup-header #closeNotif {
+    cursor: pointer;
+    font-size: 20px;
+}
+
+.notif-popup-body {
+    max-height: 250px;
+    overflow-y: auto;
+    padding: 10px 20px;
+}
+
+.notif-item {
+    padding: 10px 0;
+    border-bottom: 1px solid #eee;
+    font-size: 0.9rem;
+}
+
+.notif-item:last-child {
+    border-bottom: none;
+}
+
+.notif-popup-footer {
+    padding: 10px 20px;
+    background: #f9f9f9;
+    text-align: center;
+}
+
+.view-all {
+    font-weight: 600;
+    cursor: pointer;
+}
+
+@keyframes fadeIn {
+    from { opacity: 0; transform: translateX(-50%) translateY(-10px); }
+    to { opacity: 1; transform: translateX(-50%) translateY(0); }
+}

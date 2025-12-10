@@ -12,17 +12,44 @@
     <link rel="stylesheet" href="/css/admin/payment.css">
 </head>
 <body>
-    <div class="header">
-        <div class="user-account">
-            <div class="user-profile">
-                <img src="/image/profile-img.png" alt="profile-img">
-                <div class="user-detail">
-                    <h3>Admin</h3>
-                    <!-- <span>Admin</span> -->
-                </div>
+   <div class="header">
+
+    <!-- Notifications -->
+    <div class="notifications">
+        <span class="material-symbols-outlined" id="notifIcon">notifications</span>
+        <div class="notif-count" id="notifCount">3</div>
+    </div>
+
+    
+    <!-- User Account -->
+    <div class="user-account">
+        <div class="user-profile">
+            <img src="/image/profile-img.png" alt="profile-img">
+            <div class="user-detail">
+                <h3>Aileen Mercado</h3>
+                <span>Landlord</span>
             </div>
         </div>
     </div>
+</div>
+
+<!-- Notification Popup -->
+<div class="notif-popup" id="notifPopup">
+    <div class="notif-popup-header">
+        <h4>Notifications</h4>
+        <span id="closeNotif">&times;</span>
+    </div>
+    <div class="notif-popup-body">
+        <p class="notif-item">New payment received from Juan Dela Cruz</p>
+        <p class="notif-item">Room 101 is now available</p>
+        <p class="notif-item">Tenant Maria updated profile</p>
+    </div>
+    <div class="notif-popup-footer">
+        <p class="view-all">View all notifications</p>
+    </div>
+</div>
+
+
     <aside class="sidebar">
         <div class="sidebar-header">
             <img src="/image/logo.png" alt="logo">
@@ -35,7 +62,14 @@
             <li><a href="usermanagement"><span class="material-symbols-outlined">Manage_Accounts</span>Tenants</a></li>
             <li><a href="room"><span class="material-symbols-outlined">room_preferences</span>Room</a></li>
             <li><a href="payment"><span class="material-symbols-outlined">payments</span>Payment</a></li>
-            <li><a href="message"><span class="material-symbols-outlined">chat</span>Messages</a></li>  
+          
+        <li class="messages">
+    <a href="message" class="messages-link">
+        <span class="material-symbols-outlined" id="messageIcon">chat</span>
+        Messages
+        <span class="msg-count" id="msgCount">5</span>
+    </a>
+</li>
             <li><a href="/login"><span class="material-symbols-outlined">Logout</span>Logout</a></li>
         </ul>
         
@@ -63,6 +97,7 @@
                     <th>Balance Deposit</th>
                     <th>Payment Status</th>
                     <th>Date Paid</th>
+                    <th>Action</th>
                 </tr>
             </thead>
             <tbody id="deposit-table-body">
@@ -74,7 +109,15 @@
                     <td>₱2,500</td>
                     <td>Partial</td>
                     <td>2025-11-20</td>
+                   <td>
+                    
+                    <button>    Edit </button>
+                     <button> Mark as Paid </button>
+
+                     </td> 
+
                 </tr>
+
             </tbody>
         </table>
     </section>
@@ -94,17 +137,24 @@
         <th>Date Paid</th>
         <th>Amount Paid</th>
         <th>Remaining Balance</th>
+         <th>Action</th>
     </tr>
 </thead>
 
             <tbody id="monthly-table-body">
                 <tr>
-                    <td>2025-12-01</td>
-                    <td>₱3,000</td>
+                    <td>Ayl Mercado</td>
                     <td>2025-12-02</td>
                     <td>₱3,000</td>
+                    <td>2025-12-02</td>
                     <td>₱0</td>
                     <td>₱0</td>
+
+                     <td>
+                    
+                    <button>    Edit </button>
+                    
+                     </td> 
                 </tr>
             </tbody>
         </table>
@@ -207,6 +257,28 @@ window.onclick = function(event) {
 }
 </script>
 
+
+<script>
+const notifIcon = document.getElementById('notifIcon');
+const notifPopup = document.getElementById('notifPopup');
+const closeNotif = document.getElementById('closeNotif');
+
+notifIcon.addEventListener('click', () => {
+    notifPopup.style.display = 'block';
+});
+
+closeNotif.addEventListener('click', () => {
+    notifPopup.style.display = 'none';
+});
+
+// Close popup if clicked outside
+window.addEventListener('click', (e) => {
+    if (e.target === notifPopup) return;
+    if (!notifPopup.contains(e.target) && e.target !== notifIcon) {
+        notifPopup.style.display = 'none';
+    }
+});
+</script>
 
 
 </body>

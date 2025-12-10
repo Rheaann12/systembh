@@ -9,7 +9,7 @@
 
 body {
     min-height: 90vh;
-    background-color: #c0d6ff;
+    background-color: white;
     background: linear-gradient(to right, #e2e2e2, #60376b);
 }
 
@@ -44,7 +44,7 @@ body {
 }
 
 .user-account h3 {
-    font-size: 0.7rem;
+    font-size: 0.8rem;
     font-weight: 500;
 }
 
@@ -54,12 +54,11 @@ body {
 }
 
 .user-account span{
-    font-size: 0.5rem;
+    font-size: 0.6rem;
     font-weight: 500;
     display: block;
     margin-top: 0;
 }
-
 .sidebar:hover .user-account{
     background: #ffffff2d;
     border-radius: 4px;
@@ -90,6 +89,7 @@ body {
 .sidebar-header {
     display: flex;
     align-items: center;
+    
 }
 
 .sidebar-header h3{
@@ -200,7 +200,7 @@ body {
 .main-content {
     background-color: #ffffff;
     max-height: 100vh;
-    width: 85%; 
+    width: 90%; 
     overflow: hidden; 
     border-radius: 15px;
     margin-left: 10%; 
@@ -233,7 +233,9 @@ body {
     display: flex;
     gap: 25px;
     
+
 }
+
 .metrics-group{
     display: flex;
     flex-direction: row;
@@ -241,23 +243,7 @@ body {
 }
 
 
-.metric-box {
 
-    border: 1px solid black;
-    padding: 35px  10px;
-    width:17.7rem;
-    height: 12rem;
-    text-align: center;
-    border-radius: 15px;
-    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
-    flex: 4;
-}
-
-.metric-box h6 {
-     font-size: 1rem;
-    color: black;
-    /* margin-bottom: 10px; */
-}
 
 .metric-box .stat-number {
     font-size: 1.5rem;
@@ -276,45 +262,13 @@ body {
     align-items: center;
     gap: 12px;
     margin-bottom: 12px;
+    /* color: black; */
 }
 
-.month-display {
-    display: flex;
-    gap: 6px;
-    align-items: center;
-}
-
-.current-month {
-    font-size: 15px;
-    font-weight: 600;
-}
-
-.current-year {
-    font-size: 14px;
-    background: #f4f4f4;
-    padding: 3px 8px;
-    border-radius: 6px;
-    cursor: pointer;
-    transition: 0.2s;
-}
-
-.current-year:hover {
-    background: #e6e6e6;
-}
-
-.arrow {
-    font-size: 20px;
-    cursor: pointer;
-    padding: 4px 8px;
-    border-radius: 6px;
-}
-
-.arrow:hover {
-    background-color: #eee;
-}
 
 /* YEAR POPUP */
 .year-popup {
+    color: black;
     position: absolute;
     background: white;
     border: 1px solid #ccc;
@@ -332,11 +286,103 @@ body {
     padding: 6px;
     cursor: pointer;
     border-radius: 5px;
+    
+    
 }
 
+
+
 .year-popup div:hover {
-    background: #e8f0fe;
+    background: lightgray;
 }
+
+.month-display {
+    display: flex;
+    gap: 6px;
+    align-items: center;
+}
+
+.current-month {
+    font-size: 15px;
+    font-weight: 600;
+}
+
+.current-year {
+    font-size: 14px;
+    padding: 3px 8px;
+    border-radius: 6px;
+    cursor: pointer;
+    transition: 0.2s;
+   
+}
+
+/* cards */
+.metric-card {
+    width: 350px;
+    height: 150px;
+    border-radius: 18px;
+    color: white;
+    padding: 18px 22px;
+    display: flex;
+    align-items: center;
+    box-shadow: 0 8px 20px rgba(0,0,0,0.15);
+}
+
+
+.card-content {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    width: 100%;
+}
+
+.metric-card h6 {
+    font-size: 1.2rem;
+    font-weight: 500;
+    opacity: 0.9;
+}
+
+.metric-card h3 {
+    font-size: 2rem;
+    margin-top: 6px;
+    font-weight: 700;
+}
+
+.metric-card .icon {
+    font-size: 38px;
+    opacity: 0.9;
+}
+
+/*  COLORS */
+.funds {
+   background-color: #BB8ED0;
+}
+
+.pending {
+    background-color: #E0A8A8;
+}
+
+.activeTenant {
+    background-color: #F29AAE;
+}
+
+
+
+.current-year:hover {
+    background: #e6e6e6;
+}
+
+.arrow {
+    font-size: 20px;
+    cursor: pointer;
+    padding: 4px 8px;
+    border-radius: 6px;
+}
+
+.arrow:hover {
+    background-color: #eee;
+}
+
 
 .room-types {
     margin-top: 8px;
@@ -348,3 +394,273 @@ body {
     margin: 2px 0;
 }
 
+
+
+/* -------------------- ROOM OVERVIEW CARDS -------------------- */
+
+.metric-box {
+    background-color: #ffffff;         
+    border: 1px solid #ccc;            
+    border-radius: 12px;               
+    width: 220px;                       
+    min-height: 140px;                  
+    padding: 20px;
+    text-align: center;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    box-shadow: 0 3px 8px rgba(0,0,0,0.08);  /* Soft shadow */
+    transition: transform 0.2s ease, box-shadow 0.2s ease;
+    border: 1px solid black;
+    padding: 35px  10px;
+    width:18.7rem;
+    height: 12rem;
+    text-align: center;
+    border-radius: 15px;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+    flex: 3;
+    
+
+}
+
+
+.metric-box:hover {
+    transform: translateY(-4px);
+    box-shadow: 0 6px 18px rgba(0,0,0,0.12);
+}
+
+.metric-box h5 {
+
+    font-weight: 600;
+    color: #333;
+    margin-bottom: 10px;
+}
+
+.metric-box .stat-number {
+    font-size: 1.8rem;
+    font-weight: 700;
+    color: #000;
+}
+
+.metric-box .room-types {
+    margin-top: 10px;
+    font-size: 0.85rem;
+    color: #555;
+}
+
+.metric-box .room-types p {
+    margin: 2px 0;
+}
+
+/* Icon for room cards (optional) */
+.metric-box .icon-large {
+    font-size: 32px;
+    margin-top: 10px;
+    color: #777;
+}
+
+/* Responsive grid for room overview */
+.metrics-group {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 20px;
+    justify-content: flex-start;
+}
+
+
+
+/* Message icon container */
+.messages {
+    position: relative;
+    margin-right: 5px;
+}
+
+/* Message bell */
+.messages #messageIcon {
+    font-size: 28px;
+    color: white;
+    cursor: pointer;
+}
+
+/* Message count badge */
+.msg-count {
+    position: absolute;
+    top: -8px;     /* above the icon */
+    right: -8px;   /* slightly to the right */
+    background: red; 
+    color: white;
+    font-size: 0.7rem;
+    width: 18px;
+    height: 18px;
+    border-radius: 50%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-weight: bold;
+    pointer-events: none; /* clicks pass to icon */
+}
+
+.notifications {
+    position: relative;
+    margin-right: 30px;
+}
+
+/* Bell icon cursor */
+.notifications #notifIcon {
+    font-size: 28px;
+    color: #176B87;
+    cursor: pointer;
+}
+
+/* Notification count badge */
+.notif-count {
+    position: absolute;
+    top: -8px;     /* moves badge above the bell */
+    right: -8px;   /* moves badge to the right */
+    background: red; 
+    color: white;
+    font-size: 0.7rem;
+    width: 18px;
+    height: 18px;
+    border-radius: 50%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-weight: bold;
+    pointer-events: none; /* clicks pass to bell */
+}
+
+/* Popup styles */
+.notif-popup {
+    display: none; /* hidden by default */
+    position: fixed;
+    top: 5%;
+    left: 80%;
+    transform: translateX(-50%);
+    width: 350px;
+    background: #fff;
+    border-radius: 12px;
+    box-shadow: 0 10px 30px rgba(0,0,0,0.25);
+    z-index: 10000;
+    overflow: hidden;
+    animation: fadeIn 0.3s ease;
+}
+
+.notif-popup-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    background: #42224A;
+    color: white;
+    padding: 12px 20px;
+}
+
+.notif-popup-header h4 {
+    margin: 0;
+}
+
+.notif-popup-header #closeNotif {
+    cursor: pointer;
+    font-size: 20px;
+}
+
+.notif-popup-body {
+    max-height: 250px;
+    overflow-y: auto;
+    padding: 10px 20px;
+}
+
+.notif-item {
+    padding: 10px 0;
+    border-bottom: 1px solid #eee;
+    font-size: 0.9rem;
+}
+
+.notif-item:last-child {
+    border-bottom: none;
+}
+
+.notif-popup-footer {
+    padding: 10px 20px;
+    background: #f9f9f9;
+    text-align: center;
+}
+
+.view-all {
+    font-weight: 600;
+    cursor: pointer;
+}
+
+@keyframes fadeIn {
+    from { opacity: 0; transform: translateX(-50%) translateY(-10px); }
+    to { opacity: 1; transform: translateX(-50%) translateY(0); }
+}
+
+
+.overview-container {
+    display: flex;
+    gap: 20px; /* space between left and right */
+    margin: 20px 0;
+}
+
+.left-side, .right-side {
+    flex: 1; /* each takes equal width */
+    background-color: #FDCFFA;
+    padding: 15px;
+    border-radius: 10px;
+    box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+    height: 300px;
+}
+
+.right-side{
+     background-color: #EBD6FB;
+     padding: 20px;
+    background-color: #fff;
+    border-radius: 10px;
+    box-shadow: 0 2px 6px rgba(0,0,0,0.1);
+
+}
+
+.left-side{
+
+   
+    background-color: white;
+}
+.sticky-header h2 {
+    margin-bottom: 15px;
+    font-size: 1.2rem;
+}
+
+
+
+.recent-payment-content table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-top: 10px;
+}
+
+.recent-payment-content th, 
+.recent-payment-content td {
+    padding: 10px;
+    text-align: left;
+    border-bottom: 1px solid #ddd;
+}
+
+
+
+.recent-payment-content th {
+    background-color: #7e60bf; /* purple header */
+    color: #fff;
+    font-size: 12px; /* Adjust the font size here */
+    padding: 12px;   /* Increase padding if needed */
+    text-align: left;
+}
+
+
+
+.recent-payment-content tr {
+   
+    font-size: 12px; 
+    
+}
