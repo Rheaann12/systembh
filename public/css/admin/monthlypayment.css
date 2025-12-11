@@ -234,6 +234,7 @@ body {
     border-radius: 5px;
     cursor: pointer;
     font-size: 0.85rem;
+    font-weight: 600;
 }
 
 .btn-add:hover {
@@ -499,7 +500,7 @@ body {
 
 /* Default unpaid button */
 .markPaidBtn {
-    background-color: #9c3ab1;
+    background-color: #42224A;
     color: white;
     border: none;
     padding: 6px 12px;

@@ -329,15 +329,15 @@ body {
 
 /*  COLORS */
 .funds {
-   background-color: #BB8ED0;
+   background-color: #42224A;
 }
 
 .pending {
-    background-color: #E0A8A8;
+    background-color: #42224A;
 }
 
 .activeTenant {
-    background-color: #F29AAE;
+    background-color: #42224A;
 }
 
 
@@ -619,7 +619,7 @@ body {
 
 
 .recent-payment-content th {
-    background-color: #7e60bf; /* purple header */
+    background-color: #42224A; /* purple header */
     color: #fff;
     font-size: 12px; /* Adjust the font size here */
     padding: 12px;   /* Increase padding if needed */

@@ -164,6 +164,7 @@ body {
     font-size: 1.25rem;
      color: black;
     margin-bottom: 15px;
+   
 }
 
 .main-content {
@@ -234,6 +235,7 @@ body {
     border-radius: 5px;
     cursor: pointer;
     font-size: 0.85rem;
+     font-weight: 600;
 }
 
 .btn-add:hover {
@@ -429,7 +431,7 @@ body {
 
 
 .btn-paid {
-    background: #28a745;
+     background-color: #42224A;
     color: white;
     border: none;
     padding: 5px 10px;
@@ -437,7 +439,7 @@ body {
     cursor: pointer;
 }
 .btn-paid:hover {
-    background: #218838;
+    background: #782889;
 }
 
 

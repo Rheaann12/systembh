@@ -169,10 +169,10 @@ body {
 .main-content {
     background-color: #ffffff;
     max-height: 100vh;
-    width: 50%; 
+    width: 80%; 
     overflow: hidden; 
     border-radius: 15px;
-    margin-left: 25%; 
+    margin-left: 12%; 
     margin-top: 6%;
     padding: 20px;
     transition: margin-left 0.4s ease;
@@ -249,8 +249,8 @@ button[type="submit"]:hover {
 }
 
 .qr-section .gcash-qr {
-    width: 200px;
-    height: 200px;
+    width: 500px;
+    height: 500px;
     object-fit: cover;
     margin-bottom: 10px;
     border: 2px solid #7E60BF;
