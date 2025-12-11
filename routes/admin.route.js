@@ -107,4 +107,12 @@ router.post("/admin/addDeposit", admin_Controller.addDeposit);
 
 router.post("/admin/markAsPaid/:id", admin_Controller.markAsPaid);
 
+router.get("/admin/monthlypayment", admin_Controller.monthlypayment_view);
+
+// Monthly Payments
+router.get("/admin/monthlypayment", admin_Controller.getAllMonthlyPayments);
+router.post("/admin/addMonthlyPayment", admin_Controller.addMonthlyPayment);
+
+
+
 module.exports = router;

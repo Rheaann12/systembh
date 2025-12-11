@@ -17,9 +17,50 @@ const Admindashboard_view = (req, res) => {
 };
 
 
+// Add monthly payment
+const addMonthlyPayment = async (req, res) => {
+    try {
+        const { tenant_name, monthly_due_date, monthly_rent, date_paid, amount_paid, remaining_balance } = req.body;
 
-const monthlypayment_view= (req, res) => {
-    res.render("admin/monthlypayment");
+        await models.MonthlyPayment.create({
+            tenant_name,
+            monthly_due_date,
+            monthly_rent,
+            date_paid: date_paid || null,
+            amount_paid: amount_paid || 0,
+            remaining_balance
+        });
+
+        res.redirect("/admin/monthlypayment?message=PaymentAdded");
+    } catch (error) {
+        console.error("Error adding monthly payment:", error);
+        res.redirect("/admin/monthlypayment?message=Error");
+    }
+};
+
+// Get all monthly payments for rendering
+const getAllMonthlyPayments = async (req, res) => {
+    try {
+        const monthlyPayments = await models.MonthlyPayment.findAll({ order: [['createdAt', 'DESC']] });
+        res.render("admin/monthlypayment", { monthlyPayments });
+    } catch (error) {
+        console.error("Error fetching monthly payments:", error);
+        res.render("admin/monthlypayment", { monthlyPayments: [] });
+    }
+};
+
+
+const monthlypayment_view = async (req, res) => {
+    try {
+        const monthlyPayments = await models.MonthlyPayment.findAll({
+            order: [['createdAt', 'DESC']]
+        });
+
+        res.render("admin/monthlypayment", { monthlyPayments });
+    } catch (error) {
+        console.error("Error fetching monthly payments:", error);
+        res.render("admin/monthlypayment", { monthlyPayments: [] }); // fallback to empty array
+    }
 };
 
 
@@ -456,6 +497,8 @@ const markAsPaid = async (req, res) => {
 };
 
 module.exports = {
+     addMonthlyPayment,
+    getAllMonthlyPayments,
     monthlypayment_view,
     markAsPaid,
     addDeposit,

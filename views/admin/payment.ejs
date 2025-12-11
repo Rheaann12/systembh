@@ -76,12 +76,34 @@
         </ul>
         
     </aside>
+
 <main class="main-content">
     <div class="top">
-        <div class="sticky-header">
-            <!-- <h4>Payment</h4>     -->
-        </div>    
+        <div class="sticky-header"><h4>Tenant Deposit</h4></div>   
+
+        
+        <div class="add-search">
+             <button class="btn-add" onclick="openModal()">
+                <!-- <span class="material-symbols-outlined">add</span> -->
+        Add Deposit
+            </button>
+
+            <div class="search-container">
+                <span class="material-icons search-icon">search</span>
+                <input type="text" id="searchInput" placeholder="Search">
+            </div>
+
+            <div class="filter-container">
+                <label for="statusFilter">Filter by Status:</label>
+                <select id="statusFilter">
+                    <option value="All">All </option>
+                    <option value="Partial">Partial</option>
+                    <option value="Paid">Paid</option>
+                </select>
+            </div>
+        </div>
     </div>
+
 
     <!-- ADD DEPOSIT MODAL -->
     <div id="addDepositModal" class="modal">
@@ -103,21 +125,15 @@
     </div>
 
     <!-- Deposit Table -->
-    <section class="table-section">
-        <h5>Tenant Deposits</h5>
-        <div class="table-header"> 
-            <button class="btn-add" onclick="openModal()">
-                <span class="material-symbols-outlined">add</span>
-        Add Deposit
-            </button>
-        </div>
+ 
+      
 
 
       <table class="payment-table">
   <thead>
     <tr>
 
-      <th>Partial Date </th>
+      <th> Date </th>
       <th>Tenant Name</th>
       <th>Deposit Amount</th>
       <th>Partial Deposit</th>
@@ -268,6 +284,74 @@ displayTablePage(currentPage);
 </script>
 
 
+<script>
+// SEARCH AND FILTER FUNCTIONALITY
+const searchInput = document.getElementById('searchInput');
+const statusFilter = document.getElementById('statusFilter');
+
+function filterTable() {
+    const searchText = searchInput.value.toLowerCase();
+    const statusValue = statusFilter.value;
+
+    const filteredRows = rows.filter(row => {
+        const tenantName = row.cells[1].innerText.toLowerCase();
+        const paymentStatus = row.cells[5].innerText;
+
+        const matchesSearch = tenantName.includes(searchText);
+        const matchesStatus = (statusValue === 'All') || (paymentStatus === statusValue);
+
+        return matchesSearch && matchesStatus;
+    });
+
+    // Hide all rows first
+    rows.forEach(row => row.style.display = 'none');
+
+    // Show filtered rows according to pagination
+    const totalFilteredPages = Math.ceil(filteredRows.length / rowsPerPage);
+    let start = (currentPage - 1) * rowsPerPage;
+    let end = start + rowsPerPage;
+
+    filteredRows.slice(start, end).forEach(row => row.style.display = '');
+
+    // Update pagination buttons
+    renderPaginationFiltered(filteredRows, totalFilteredPages);
+}
+
+// Modified pagination for filtered rows
+function renderPaginationFiltered(filteredRows, totalPagesFiltered) {
+    pagination.innerHTML = '';
+
+    for (let i = 1; i <= totalPagesFiltered; i++) {
+        const btn = document.createElement('button');
+        btn.innerText = i;
+        btn.classList.add('page-btn');
+        if (i === currentPage) btn.classList.add('active');
+
+        btn.addEventListener('click', () => {
+            currentPage = i;
+            // Show the right slice of filtered rows
+            rows.forEach(row => row.style.display = 'none');
+            const start = (i - 1) * rowsPerPage;
+            const end = start + rowsPerPage;
+            filteredRows.slice(start, end).forEach(row => row.style.display = '');
+            renderPaginationFiltered(filteredRows, totalPagesFiltered);
+        });
+
+        pagination.appendChild(btn);
+    }
+}
+
+// Event listeners
+searchInput.addEventListener('input', () => {
+    currentPage = 1;
+    filterTable();
+});
+
+statusFilter.addEventListener('change', () => {
+    currentPage = 1;
+    filterTable();
+});
+</script>
 
 
 </body>
