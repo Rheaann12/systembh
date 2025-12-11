@@ -12,6 +12,7 @@ module.exports = (sequelize, DataTypes) => {
         Users_Status: { type: DataTypes.STRING, defaultValue: "Active" },
         Username: { type: DataTypes.STRING, allowNull: false, unique: true },
         Password: { type: DataTypes.STRING, allowNull: false },
+        Monthly_DueDate: { type: DataTypes.DATE, allowNull: false } // no default
     });
     return tenant;
 };

@@ -229,6 +229,7 @@ const addUser = async (req, res) => {
             Users_Status: req.body.status || "Active",
             Username: req.body.Username_data,
             Password: bcrypt.hashSync(req.body.Password_data, 10),
+            Monthly_DueDate: req.body.monthlyDueDate_data, // <-- required
         };
 
         await models.tenant.create(data_addUser);
@@ -238,8 +239,6 @@ const addUser = async (req, res) => {
         res.redirect("/admin/usermanagement?message=ErrorAddingUser");
     }
 };
-
-
 
 
 // Edit User
@@ -262,13 +261,13 @@ const editUser = (req, res) => {
 };
 
 
-// Update User Data
 const updateUser = async (req, res) => {
     const userId = req.params.id;
     const updatedData = {
         FirstName: req.body.firstName_data,
         LastName: req.body.lastName_data,
         ContactNumber: req.body.contactNumber_data,
+        Monthly_DueDate: req.body.monthlyDueDate_data,
         Room_Type: req.body.roomType_data,
         Room_Number: req.body.roomNumber_data,
         Monthly_Rent: req.body.monthlyRent_data,
