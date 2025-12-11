@@ -11,10 +11,28 @@ const bcrypt = require("bcrypt");
 
 
 // Sa Navigation
+const Admindashboard_view = async (req, res) => {
+    try {
+        // Total Balance Deposit from Deposits
+        const depositTotalResult = await models.Deposit.sum('balance_deposit') || 0;
 
-const Admindashboard_view = (req, res) => {
-    res.render("admin/Admindashboard");
+        // Total Remaining Balance from Monthly Payments
+        const monthlyRemainingTotal = await models.MonthlyPayment.sum('remaining_balance') || 0;
+
+        // Total Pending Payments
+        const totalPendingPayments = depositTotalResult + monthlyRemainingTotal;
+
+        // Render dashboard and send totalPendingPayments
+        res.render("admin/Admindashboard", {
+            totalPendingPayments: totalPendingPayments.toFixed(2),
+            // send other dashboard data here if needed
+        });
+    } catch (error) {
+        console.error("Error fetching pending payments:", error);
+        res.render("admin/Admindashboard", { totalPendingPayments: 0 });
+    }
 };
+
 
 
 // Add monthly payment
