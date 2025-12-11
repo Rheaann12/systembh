@@ -113,6 +113,8 @@ router.get("/admin/monthlypayment", admin_Controller.monthlypayment_view);
 router.get("/admin/monthlypayment", admin_Controller.getAllMonthlyPayments);
 router.post("/admin/addMonthlyPayment", admin_Controller.addMonthlyPayment);
 
+router.post("/admin/markMonthlyPaid/:id", admin_Controller.markMonthlyPaid);
+router.get("/admin/getRecentMonthlyPayments", admin_Controller.getRecentMonthlyPayments);
 
 
 module.exports = router;

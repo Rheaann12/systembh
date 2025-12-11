@@ -20,23 +20,27 @@ const Admindashboard_view = (req, res) => {
 // Add monthly payment
 const addMonthlyPayment = async (req, res) => {
     try {
-        const { tenant_name, monthly_due_date, monthly_rent, date_paid, amount_paid, remaining_balance } = req.body;
+        const { tenant_id, tenant_name, monthly_due_date, monthly_rent, amount_paid } = req.body;
+
+        const remaining_balance = monthly_rent - amount_paid;
 
         await models.MonthlyPayment.create({
+            tenant_id,
             tenant_name,
             monthly_due_date,
             monthly_rent,
-            date_paid: date_paid || null,
-            amount_paid: amount_paid || 0,
+            date_paid: amount_paid > 0 ? new Date() : null,
+            amount_paid,
             remaining_balance
         });
 
         res.redirect("/admin/monthlypayment?message=PaymentAdded");
     } catch (error) {
-        console.error("Error adding monthly payment:", error);
+        console.error("Error:", error);
         res.redirect("/admin/monthlypayment?message=Error");
     }
 };
+
 
 // Get all monthly payments for rendering
 const getAllMonthlyPayments = async (req, res) => {
@@ -52,14 +56,18 @@ const getAllMonthlyPayments = async (req, res) => {
 
 const monthlypayment_view = async (req, res) => {
     try {
+        const tenants = await models.tenant.findAll({
+            attributes: ["Users_ID", "FirstName", "LastName", "Monthly_DueDate", "Monthly_Rent"]
+        });
+
         const monthlyPayments = await models.MonthlyPayment.findAll({
             order: [['createdAt', 'DESC']]
         });
 
-        res.render("admin/monthlypayment", { monthlyPayments });
+        res.render("admin/monthlypayment", { monthlyPayments, tenants });
     } catch (error) {
-        console.error("Error fetching monthly payments:", error);
-        res.render("admin/monthlypayment", { monthlyPayments: [] }); // fallback to empty array
+        console.error("Error:", error);
+        res.render("admin/monthlypayment", { monthlyPayments: [], tenants: [] });
     }
 };
 
@@ -78,6 +86,55 @@ const payment_view = async (req, res) => {
   }
 };
 
+// Add Payment
+exports.addPayment = async (req, res) => {
+    try {
+        const tenantId = req.body.tenant_id;
+        const amountPaid = parseFloat(req.body.amount_paid);
+
+        const tenant = await models.tenant.findOne({
+            where: { Users_ID: tenantId }
+        });
+
+        const monthlyRent = tenant.Monthly_Rent;
+
+        // Compute balance
+        const balance = monthlyRent - amountPaid;
+
+        await models.payment.create({
+            Tenant_ID: tenantId,
+            Amount_Paid: amountPaid,
+            Balance: balance <= 0 ? 0 : balance,
+            Status: balance <= 0 ? "Paid" : "Partial"
+        });
+
+        res.redirect("/admin/payment");
+
+    } catch (error) {
+        res.send(error);
+    }
+};
+
+// MARK MONTHLY PAYMENT AS PAID
+const markMonthlyPaid = async (req, res) => {
+    try {
+        const paymentId = req.params.id;
+
+        const payment = await models.MonthlyPayment.findByPk(paymentId);
+        if (!payment) return res.redirect("/admin/monthlypayment?message=NotFound");
+
+        await payment.update({
+            amount_paid: payment.monthly_rent,
+            remaining_balance: 0,
+            date_paid: new Date()
+        });
+
+        res.redirect("/admin/monthlypayment?message=MarkedAsPaid");
+    } catch (error) {
+        console.error("Error marking monthly payment as paid:", error);
+        res.redirect("/admin/monthlypayment?message=Error");
+    }
+};
 
 const message_view= (req, res) => {
     res.render("admin/message");
@@ -495,7 +552,24 @@ const markAsPaid = async (req, res) => {
     }
 };
 
+const getRecentMonthlyPayments = async (req, res) => {
+    try {
+        const payments = await models.MonthlyPayment.findAll({
+            order: [['createdAt', 'DESC']],
+            limit: 3 // only fetch 3 latest
+        });
+
+        res.json(payments);
+    } catch (error) {
+        console.error("Error fetching recent monthly payments:", error);
+        res.status(500).json({ error: "Unable to fetch recent payments" });
+    }
+};
+
+
 module.exports = {
+    getRecentMonthlyPayments,
+    markMonthlyPaid,
      addMonthlyPayment,
     getAllMonthlyPayments,
     monthlypayment_view,

@@ -198,20 +198,44 @@
             </thead>
             <tbody>
                 <!-- Example row -->
-                <tr>
-
-                    <td>Rhealyn Ann Caparida</td>
-                    <td>2025-12-01</td>
-                    <td>₱10,000</td>
-                    <td>2025-12-05</td>
-                    <td>₱10,000</td>
-                    <td>₱0</td>
-                </tr>
+              
                 <!-- Add more rows dynamically here -->
             </tbody>
         </table>
     </div>
 </div>
+<script>
+const tbody = document.querySelector(".recent-payment-content tbody");
+
+fetch('/admin/getRecentMonthlyPayments')
+    .then(res => res.json())
+    .then(data => {
+        tbody.innerHTML = ''; // clear existing rows
+
+        if (data.length === 0) {
+            tbody.innerHTML = `<tr><td colspan="6">No recent payments found</td></tr>`;
+            return;
+        }
+
+        data.forEach(payment => {
+            const row = document.createElement("tr");
+            row.innerHTML = `
+                <td>${payment.tenant_name}</td>
+                <td>${new Date(payment.monthly_due_date).toLocaleDateString()}</td>
+                <td>₱${Number(payment.monthly_rent).toLocaleString()}</td>
+                <td>${payment.date_paid ? new Date(payment.date_paid).toLocaleDateString() : '-'}</td>
+                <td>₱${Number(payment.amount_paid).toLocaleString()}</td>
+                <td>₱${Number(payment.remaining_balance).toLocaleString()}</td>
+            `;
+            tbody.appendChild(row);
+        });
+    })
+    .catch(err => {
+        console.error("Error fetching recent monthly payments:", err);
+        tbody.innerHTML = `<tr><td colspan="6">Error loading payments</td></tr>`;
+    });
+</script>
+
 
 
 <script>

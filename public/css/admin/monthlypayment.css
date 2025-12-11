@@ -227,7 +227,7 @@ body {
 }
 
 .btn-add {
-    padding: 5px 15px;
+    padding: 15px 15px;
     background-color: #42224A;
     color: #fff;
     border: none;
@@ -494,3 +494,92 @@ body {
     background-color: #7E60BF;
     color: white;
 }
+
+/* monthlypayment.css */
+
+/* Default unpaid button */
+.markPaidBtn {
+    background-color: #9c3ab1;
+    color: white;
+    border: none;
+    padding: 6px 12px;
+    border-radius: 4px;
+    cursor: pointer;
+    transition: 0.3s;
+}
+
+.markPaidBtn:hover {
+    background-color: #782889;
+}
+
+/* Paid button */
+.markPaidBtn.paid {
+    background-color: #4caf50;
+    cursor: not-allowed;
+}
+.table-header {
+    display: flex;
+    justify-content: flex-start; /* align items left */
+    align-items: center;
+    margin-bottom: 10px;
+    gap: 20px; /* space between button and title */
+}
+
+
+
+.add-search {
+    display: flex;
+    justify-content: space-between; 
+    align-items: center;
+    margin-bottom: 15px;
+}
+
+
+/* Styles for Search Container */
+.search-container {
+    display: flex-end;
+    align-items: center;
+    margin-top: 10px;
+
+}
+
+.search-container label {
+    font-size: 1rem;
+    font-weight: 500;
+    color: #333;
+    margin-right: 10px;
+}
+
+#searchInput {
+    padding: 8px;
+    font-size: 0.9rem;
+    border-radius: 5px;
+    border: 1px solid #ccc;
+    width: 250px;
+}
+
+
+/* Styles for Search Container with Icon */
+.search-container {
+    display: flex;
+    align-items: center;
+    margin-bottom: 15px;
+    position: relative;
+}
+
+.search-container .search-icon {
+    position: absolute;
+    left: 10px;
+    color: #888;
+    font-size: 1.25rem;
+}
+
+#searchInput {
+    padding: 8px 8px 8px 35px; /* Padding adjusted for icon */
+    font-size: 0.9rem;
+    border-radius: 5px;
+    border: 1px solid #ccc;
+    width: 500px;
+}
+
+

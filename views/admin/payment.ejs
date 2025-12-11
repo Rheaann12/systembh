@@ -6,7 +6,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Admin Payment</title>
+    <title>Admin Deposit</title>
 
     <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Icons" />
     <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200" />
@@ -190,6 +190,29 @@
         </tr>
     <% } %>
 </tbody>
+
+
+  <% 
+    // Calculate totals safely
+    let totalPartial = 0;
+    let totalBalance = 0;
+
+    if (Array.isArray(deposits) && deposits.length > 0) {
+        deposits.forEach(dep => {
+            totalPartial += Number(dep.partial_deposit) || 0;
+            totalBalance += Number(dep.deposit_amount - (dep.partial_deposit || 0)) || 0;
+        });
+    }
+  %>
+
+  <tfoot>
+    <tr>
+      <td colspan="3" style="text-align:right;"><strong>Total:</strong></td>
+      <td><strong><%= Number(totalPartial).toFixed(2) %></strong></td>
+      <td><strong><%= Number(totalBalance).toFixed(2) %></strong></td>
+      <td colspan="3"></td>
+    </tr>
+  </tfoot>
 
 
 </table>

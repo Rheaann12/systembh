@@ -580,7 +580,7 @@ body {
 
 .right-side {
     flex: 1; /* each takes equal width */
-    padding: 15px;
+    padding: 10px;
     border-radius: 10px;
     box-shadow: 0 2px 5px rgba(0,0,0,0.1);
     height: 300px;
@@ -588,7 +588,7 @@ body {
 
 .right-side{
      background-color: #EBD6FB;
-     padding: 20px;
+     padding: 10px;
     background-color: #fff;
     border-radius: 10px;
     box-shadow: 0 2px 6px rgba(247, 47, 47, 0.1);
